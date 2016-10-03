@@ -1,0 +1,36 @@
+{
+  "stato": "ok",
+  "risultato": {
+    "id": "getSchema/datiCalendarioPersona/mensile/1",
+    "show": {
+      "class": "st-datianagrafici"
+    },
+    "view": {
+      "class": "dt-datianagrafici"
+    },
+    "input": {
+      "class": "in-datianagrafici"
+    },
+    "type": "object",
+    "properties": {
+      "tipoRicorrenzaMensile": {
+        "$ref": "getSchema/cognome/5"
+      },
+      "giornoMese": {
+        "$ref": "getSchema/reddito/1"
+      },
+      "periodicitaMensile": {
+        "$ref": "getSchema/cognome/5"
+      },
+      "ordinaleMensile": {
+        "$ref": "getSchema/reddito/1"
+      },
+      "giornoSettimana": {
+        "$ref": "getSchema/reddito/1"
+      },
+      "periodicitaMensile2": {
+        "$ref": "getSchema/reddito/1"
+      }
+    }
+  }
+}

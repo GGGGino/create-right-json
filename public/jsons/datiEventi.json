@@ -1,0 +1,55 @@
+{
+  "stato": "ok",
+  "risultato": {
+    "data": {
+      "pagination":[{
+      }],
+      "lista": [{
+        "id": 3,
+        "user": "zippo1",
+        "colore": "#006600",
+        "titolo": "Scadenza fattura",
+        "gruppo": "Fatture",
+        "corpo": "La fattura numero 10 sta per scadere, clicca qui per modificare #TOKEN# o qui per aggiungere #TOKEN#",
+        "dataInizio": "08/08/2016 01:00",
+        "dataFine": "08/08/2016 04:00",
+        "version": 2,
+        "deletable": true,
+        "clientLinks": [{
+          "rel": [
+            "edit"
+          ],
+          "label": "Modifica Evento",
+          "href": "getPage/YzBiOTRiOTc4ZTU3ZDBlOWE2ZGRhZTUzYmRjYTMzNmUxZjFlYjg5NQ]]__BXHA__edit__BXHA__eyJpZCI6LTEsIiRhY3Rpb25Nb2RlIjoidGVzdEdldFBhZ2UifQ]]",
+          "method": "GET"
+        }, {
+          "rel": [
+            "edit"
+          ],
+          "label": "Modifica Evento reale",
+          "href": "getPage/ZjQyYmNkMzFjOTFhNjQzNjZhMDlmZTg5MTc1OWI3OTdhYjM1NzRkZA]]__BXHA__edit__BXHA__eyJpZCI6NCwiJGFjdGlvbk1vZGUiOiJ0ZXN0R2V0UGFnZSJ9",
+          "method": "GET"
+        }]
+      },{
+        "id": 4,
+        "user": "zippo1",
+        "colore": "#006600",
+        "titolo": "Scadenza fattura",
+        "gruppo": "Fatture",
+        "corpo": "La fattura numero 10 sta per scadere, clicca qui per modificare #TOKEN# o qui per aggiungere #TOKEN#",
+        "dataInizio": "08/08/2016 01:00",
+        "dataFine": "08/08/2016 04:00",
+        "version": 2,
+        "deletable": true,
+        "clientLinks": [{
+          "rel": [
+            "edit"
+          ],
+          "label": "Modifica Evento",
+          "href": "getPage/YzBiOTRiOTc4ZTU3ZDBlOWE2ZGRhZTUzYmRjYTMzNmUxZjFlYjg5NQ]]__BXHA__edit__BXHA__eyJpZCI6LTEsIiRhY3Rpb25Nb2RlIjoidGVzdEdldFBhZ2UifQ]s",
+          "method": "GET"
+        }]
+      }]
+    }
+  }
+}

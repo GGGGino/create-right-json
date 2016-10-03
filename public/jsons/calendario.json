@@ -1,0 +1,59 @@
+{
+  "stato": "ok",
+  "risultato": {
+    "id": "getSchema/pannelloCalendario/1",
+    "show": {
+      "class": "st-panncalendario"
+    },
+    "view": {
+      "class": "dt-panncalendario"
+    },
+    "input": {
+      "class": "in-panncalendario"
+    },
+    "scope": "calendar",
+    "type": "object",
+    "editable": false,
+    "properties": {
+      "calendar": {
+        "viewMode": "month",
+        "type": "array",
+        "items": {
+          "$ref": "getSchema/datiCalendarioPersona/1"
+        }
+      }
+    },
+    "clientLinks": [{
+      "rel": [
+        "insert"
+      ],
+      "baseParam": "insertGenericWithSchema",
+      "$entity": "fattura"
+    }, {
+      "rel": [
+        "insert"
+      ],
+      "baseParam": "insertGenericWithSchema",
+      "$entity": "visita"
+    }],
+    "links": [{
+      "rel": [
+        "insert"
+      ],
+      "href": "addGeneric",
+      "method": "POST",
+      "schema": {
+        "$ref": "getSchema/evento/1"
+      }
+    }, {
+      "rel": [
+        "filter"
+      ],
+      "href": "getGenericWithSchema",
+      "method": "POST",
+      "schema": {
+        "$ref": "getSchema/filterCalendario/1"
+      }
+    }]
+  }
+}

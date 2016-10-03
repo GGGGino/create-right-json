@@ -1,0 +1,55 @@
+{
+  "stato": "ok",
+  "risultato": {
+    "id": "getSchema/servizi/2",
+    "type": "fieldSet",
+    "show": {
+      "visible": false
+    },
+    "view": {
+      "visible": false
+    },
+    "input": {
+      "class": "in-comuni",
+      "label": "Comuni:",
+      "columns": 8,
+      "initialPanelNumber": 2,
+      "readonly": true,
+      "multiple": true,
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "getSchema/indice/5"
+        },
+        "nome": {
+          "$ref": "getSchema/nome/6"
+        },
+        "cognome": {
+          "$ref": "getSchema/cognome/5"
+        }
+      }
+    },
+    "links": [{
+      "rel": [
+        "filterServer"
+      ],
+      "href": "getGeneric",
+      "method": "POST",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "$entity": "comuniItalia",
+          "idProvincia": "{idProvincia}"
+        }
+      },
+      "resultSchema": {
+        "type": "array",
+        "items": {
+          "id": 1,
+          "nome": "prova",
+          "version": 2
+        }
+      }
+    }]
+  }
+}

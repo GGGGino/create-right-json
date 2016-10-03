@@ -1,0 +1,26 @@
+{
+  "stato": "ok",
+  "risultato": {
+    "schema": {
+      "$ref": "getSchema/pannelloCalendario.json",
+      "link": {
+        "rel": [
+          "clientLinkInsert"
+        ],
+        "href": "getPage/MGEwMDJkZTY2M2E2YjVmNWNmZGYzNTczZWRiNmI4YTdlZjk5ZDk5YQ]]__BXHA__insert__BXHA__eyJpZCI6LTEsIiRhY3Rpb25Nb2RlIjoidGVzdEdldFBhZ2UifQ]]",
+        "method": "GET"
+      }
+    },
+    "data": {
+      "days": [{
+        "$hash": "datiGiorniSpeciali.json",
+        "$cached": true
+      }],
+      "events": [{
+        "$hash": "datiEventi.json",
+        "$cached": true
+      }]
+    },
+    "parameters": {}
+  }
+}

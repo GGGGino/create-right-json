@@ -1,0 +1,24 @@
+{
+  "stato": "ok",
+  "risultato": {
+    "id": "getSchema/datiCalendarioPersona/settimanale/1",
+    "show": {
+      "class": "st-datianagrafici"
+    },
+    "view": {
+      "class": "dt-datianagrafici"
+    },
+    "input": {
+      "class": "in-datianagrafici"
+    },
+    "type": "object",
+    "properties": {
+      "giornoSettimana": {
+        "$ref": "getSchema/reddito/1"
+      },
+      "periodicita": {
+        "$ref": "getSchema/cognome/5"
+      }
+    }
+  }
+}

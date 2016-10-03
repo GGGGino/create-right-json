@@ -1,0 +1,31 @@
+{
+  "stato": "ok",
+  "risultato": {
+    "id": "getSchema/note/1",
+    "type": "string",
+    "show": {
+      "class": "st-note",
+      "label": "note",
+      "clientSearch": false,
+      "clientFilter": false
+    },
+    "view": {
+      "class": "dt-note",
+      "columns": 4,
+      "label": "Note:",
+      "help": "Note sulla persona"
+    },    
+    "input": {
+      "class": "in-note",
+      "format": "textarea",
+      "columns": 8,
+      "rows": 5,
+      "label": "Note:",
+      "help": "Inserire le note"
+    },
+    "validations": {
+     "nullable": false,
+     "minLength": 250
+    }
+  }
+}
