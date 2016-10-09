@@ -12,6 +12,7 @@
 */
 
 use App\CustomClasses\JsonManager;
+use Illuminate\Http\Request;
 
 $app->get('/', function () use ($app) {
     $twig = $app->make('viewTwig');
@@ -26,16 +27,21 @@ $app->group(['prefix' => 'api'], function () use ($app) {
         return response()->json($jsonM->getJsonsInFolder());
     });
 
-    $app->get('getJson', function () use ($app) {
+    $app->post('getJson', function (Request $request) use ($app) {
         /** @var JsonManager $jsonM */
         $jsonM = $app->make('jsonManager');
-        return response()->json($jsonM->getJsonDetailInFolder("calendario.json"));
+        $nome = $request->request->get('nome');
+        return response()->json($jsonM->getJsonDetailInFolder($nome));
     });
 
-    $app->post('json', function () use ($app) {
+    $app->put('editJson', function (Request $request) use ($app) {
         /** @var JsonManager $jsonM */
         $jsonM = $app->make('jsonManager');
-        return response()->json($jsonM->getJsonDetailInFolder("calendario.json"));
+
+        $nome = $request->request->get('nome');
+        $schema = $request->request->get('schema');
+
+        return response()->json($jsonM->changeJsonInFolder($nome, $schema));
     });
 
 });

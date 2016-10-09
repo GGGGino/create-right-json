@@ -41,6 +41,32 @@ class JsonManager
     }
 
     /**
+     * Prendo il json nella cartella e lo modifico interamente conil json passato
+     *
+     * @param string $name il nome dei file da cercare
+     * @return array|string
+     */
+    public function changeJsonInFolder($name, $schema)
+    {
+        if( !$name )
+            return array();
+
+        $jsons = $this->getJsonsInFolder();
+        $name = (strpos($name, '.json') !== false) ? $name : $name . ".json";
+
+        if( !in_array($name, $jsons) )
+            return array();
+
+        $fileName = self::$jsonFolder . "/" . $name;
+
+        $myfile = fopen($fileName, "w") or die("Unable to open file!");
+        fwrite($myfile, json_encode($schema));
+        fclose($myfile);
+
+        return $schema;
+    }
+
+    /**
      * Prendo il json completo con il nome $nome e rendo il contenuto del file
      * Il nome può contenere sia il .json che non
      *

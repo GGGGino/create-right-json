@@ -1,0 +1,181 @@
+{
+  "$schema": "http:\/\/json-schema.org\/draft-04\/schema#",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": "id"
+    },
+    "show": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string",
+          "enum": ["loool", "getSchema\/pannelloAnagraficiPersonaB\/3"],
+          "id": "class"
+        }
+      },
+      "id": "show",
+      "required": ["class"]
+    },
+    "view": {
+      "type": "object",
+      "properties": {
+        "$ref": {
+          "type": "string",
+          "default": "getSchema\/pannelloAnagraficiPersonaB\/3",
+          "id": "$ref"
+        }
+      },
+      "id": "view",
+      "required": ["$ref"]
+    },
+    "input": {
+      "type": "object",
+      "properties": {
+        "class": {
+          "type": "string",
+          "id": "class"
+        }
+      },
+      "id": "input",
+      "required": ["class"]
+    },
+    "scope": {
+      "type": "string",
+      "id": "scope"
+    },
+    "type": {
+      "type": "string",
+      "id": "type"
+    },
+    "editable": {
+      "type": "boolean",
+      "id": "editable"
+    },
+    "ordering": {
+      "type": "boolean",
+      "id": "ordering"
+    },
+    "orderColumns": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "id": "orderColumns"
+    },
+    "filter": {
+      "type": "boolean",
+      "id": "filter"
+    },
+    "filterColumns": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "id": "filterColumns"
+    },
+    "search": {
+      "type": "object",
+      "properties": {
+        "active": {
+          "type": "boolean",
+          "id": "active"
+        },
+        "mode": {
+          "type": "string",
+          "id": "mode"
+        }
+      },
+      "id": "search",
+      "required": ["active", "mode"]
+    },
+    "numRows": {
+      "type": "integer",
+      "id": "numRows"
+    },
+    "shiftVal": {
+      "type": "integer",
+      "id": "shiftVal"
+    },
+    "properties": {
+      "type": "object",
+      "properties": {
+        "pagination": {
+          "type": "object",
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "id": "$ref"
+            }
+          },
+          "id": "pagination",
+          "required": ["$ref"]
+        },
+        "lista": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "id": "type"
+            },
+            "items": {
+              "type": "object",
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "id": "$ref"
+                }
+              },
+              "id": "items",
+              "required": ["$ref"]
+            }
+          },
+          "id": "lista",
+          "required": ["type", "items"]
+        }
+      },
+      "id": "properties",
+      "required": ["pagination", "lista"]
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "rel": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "id": "rel"
+          },
+          "href": {
+            "type": "string",
+            "id": "href"
+          },
+          "method": {
+            "type": "string",
+            "id": "method"
+          },
+          "schema": {
+            "type": "object",
+            "properties": {
+              "$ref": {
+                "type": "string",
+                "id": "$ref"
+              }
+            },
+            "id": "schema",
+            "required": ["$ref"]
+          }
+        },
+        "id": "1",
+        "required": ["rel", "href", "method", "schema"]
+      },
+      "id": "links"
+    }
+  },
+  "id": "\/",
+  "required": ["id", "show", "view", "input", "scope", "type", "editable", "ordering", "orderColumns", "filter", "filterColumns", "search", "numRows", "shiftVal", "properties", "links"]
+}

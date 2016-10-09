@@ -12,10 +12,10 @@
  * the TodoStore and passes the new data to its children.
  */
 
-var React = require('react');
-var SchemiActions = require('../actions/schemiActions');
+var React = require('react'),
+    Utils = require('../Utils.jsx');
 
-var SchemaDetailBox = React.createClass({
+var Master = React.createClass({
 
     getInitialState: function() {
         return {
@@ -35,16 +35,22 @@ var SchemaDetailBox = React.createClass({
      * @return {object}
      */
     render: function() {
+        var cleanedSchema = Utils.cleanSchema(this.props.schema),
+            properties = [],
+            profondita = 0;
+
+        for(var propName in cleanedSchema.properties) {
+            var key = cleanedSchema.properties[propName].id;
+            properties.push(Utils.recognizeSchema(key, cleanedSchema.properties[propName], profondita));
+        }
+
         return (
-            <div>
-                <h1 className="page-header">View Schema</h1>
-                <pre>
-                    {JSON.stringify(this.props.schema, null, 2) }
-                </pre>
-            </div>
+            <form>
+                {properties}
+            </form>
         );
     }
 
 });
 
-module.exports = SchemaDetailBox;
+module.exports = Master;

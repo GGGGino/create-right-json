@@ -7,25 +7,20 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-var React = require('react');
+var React = require('react'),
+    ReactDOM = require('react-dom'),
+    SchemiJsonTable = require('./myApp/components/SchemiJsonTable.react.jsx'),
+    SchemiActions = require('./myApp/actions/schemiActions');
 
-var TodoApp = require('./todo/components/TodoApp.react.jsx');
-var SchemiJsonTable = require('./myApp/components/SchemiJsonTable.react.jsx');
-var SchemaDetailBox = require('./myApp/components/SchemaDetailBox.react.jsx');
-var SchemiActions = require('./myApp/actions/schemiActions');
-var store = require('./myApp/reducers/schemi');
+fetch('api/getJsons')
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(myJson) {
+        SchemiActions.createList(myJson);
 
-React.render(
-  <TodoApp />,
-  document.getElementById('todoapp')
-);
-
-React.render(
-    <SchemiJsonTable/>,
-    document.getElementById('elencoJsonGeneral')
-);
-
-React.render(
-    <SchemaDetailBox/>,
-    document.getElementById('schemaDetail')
-);
+        ReactDOM.render(
+            <SchemiJsonTable/>,
+            document.getElementById('elencoJsonGeneral')
+        );
+    });

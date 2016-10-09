@@ -12,8 +12,9 @@
  * the TodoStore and passes the new data to its children.
  */
 
-var React = require('react');
-var SchemiActions = require('../actions/schemiActions');
+var React = require('react'),
+    SchemiActions = require('../actions/schemiActions'),
+    MasterSchema = require('./schemi/Master.react.jsx');
 
 var SchemaDetailBox = React.createClass({
 
@@ -35,9 +36,12 @@ var SchemaDetailBox = React.createClass({
      * @return {object}
      */
     render: function() {
+
+
         return (
             <div>
-                <h1 className="page-header">View Schema</h1>
+                <h1 className="page-header">Create Schema From Template</h1>
+                <MasterSchema schema={this.props.schema}/>
                 <pre>
                     {JSON.stringify(this.props.schema, null, 2) }
                 </pre>

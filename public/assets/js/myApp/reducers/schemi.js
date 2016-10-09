@@ -1,13 +1,5 @@
 var Redux = require('redux');
 
-var primoStato = {
-        listaSchemi: [
-            "primo",
-            "secondo",
-            "terzo"
-        ]
-    };
-
 function counter(state, action) {
 
     if (typeof state === 'undefined') {
@@ -16,13 +8,9 @@ function counter(state, action) {
 
     switch (action.type) {
         case 'CREATE_LIST':
-            if("list" in action) {
-                state.listaSchemi = action.list;
-            }else{
-                state = primoStato;
-            }
+            state = {};
+            state.listaSchemi = action.list;
             return state;
-            break;
         case 'LIST':
             return state;
 
@@ -32,6 +20,5 @@ function counter(state, action) {
 }
 
 var store = Redux.createStore(counter);
-store.dispatch({ type: 'CREATE_LIST' });
 
 module.exports = store;

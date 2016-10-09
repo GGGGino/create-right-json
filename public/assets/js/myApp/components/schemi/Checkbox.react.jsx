@@ -13,9 +13,8 @@
  */
 
 var React = require('react');
-var SchemiActions = require('../actions/schemiActions');
 
-var SchemaDetailBox = React.createClass({
+var CheckboxField = React.createClass({
 
     getInitialState: function() {
         return {
@@ -31,20 +30,32 @@ var SchemaDetailBox = React.createClass({
         //SchemiStore.removeChangeListener(this._onChange);
     },
 
+    onChange: function() {
+        this.setState({isChecked: !this.state.isChecked});
+    },
+
     /**
      * @return {object}
      */
     render: function() {
+        var style = {
+                width: '200px'
+            },
+            defaultValue = this.props.schema.default;
         return (
-            <div>
-                <h1 className="page-header">View Schema</h1>
-                <pre>
-                    {JSON.stringify(this.props.schema, null, 2) }
-                </pre>
+            <div key={this.props.schema.id} className="form-group">
+                <div className="form-inline">
+                    <label>
+                        <input
+                            type="checkbox"
+                            defaultChecked={defaultValue}
+                        />{this.props.schema.id}
+                    </label>
+                </div>
             </div>
         );
     }
 
 });
 
-module.exports = SchemaDetailBox;
+module.exports = CheckboxField;

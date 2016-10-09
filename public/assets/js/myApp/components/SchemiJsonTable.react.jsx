@@ -14,7 +14,7 @@
 
 var React = require('react');
 var SchemiActions = require('../actions/schemiActions');
-var SingleSchemaTable = React.createFactory(require('./SingleSchemaTable.react.jsx'));
+var SingleSchemaTable = require('./SingleSchemaTable.react.jsx');
 
 var SchemiJsonTable = React.createClass({
 
@@ -48,13 +48,15 @@ var SchemiJsonTable = React.createClass({
 
         for (var key in allSchemi.listaSchemi) {
             var schema = {
-                nome: allSchemi.listaSchemi[key]
-            };
-            schemi.push(<SingleSchemaTable schema={schema} />);
+                    nome: allSchemi.listaSchemi[key]
+                },
+                chiaveChild = parseInt(Math.random() * 1000) + "";
+
+            schemi.push(<SingleSchemaTable key={chiaveChild} schema={schema} />);
         }
 
         return (
-            <table class="table table-striped">
+            <table className="table table-striped">
                 <thead>
                     <tr>
                         <th>Schema</th>

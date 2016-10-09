@@ -13,9 +13,8 @@
  */
 
 var React = require('react');
-var SchemiActions = require('../actions/schemiActions');
 
-var SchemaDetailBox = React.createClass({
+var StringField = React.createClass({
 
     getInitialState: function() {
         return {
@@ -35,16 +34,20 @@ var SchemaDetailBox = React.createClass({
      * @return {object}
      */
     render: function() {
+        var style = {
+                width: '200px'
+            },
+            defaultValue = this.props.schema.default;
         return (
-            <div>
-                <h1 className="page-header">View Schema</h1>
-                <pre>
-                    {JSON.stringify(this.props.schema, null, 2) }
-                </pre>
+            <div key={this.props.schema.id} className="form-group">
+                <div className="form-inline">
+                    <label>{this.props.schema.id}:&nbsp;&nbsp;</label>
+                    <input type="text" defaultValue={defaultValue} style={style} className="form-control" />
+                </div>
             </div>
         );
     }
 
 });
 
-module.exports = SchemaDetailBox;
+module.exports = StringField;
