@@ -67,6 +67,32 @@ class JsonManager
     }
 
     /**
+     * Aggiungo un template json
+     *
+     * @param string $name il nome dei file da cercare
+     * @return array|string
+     */
+    public function addJsonTemplate($name, $schema)
+    {
+        if( !$name )
+            return array();
+
+        $jsons = $this->getJsonsInFolder();
+        $name = (strpos($name, '.json') !== false) ? $name : $name . ".json";
+
+        if( in_array($name, $jsons) )
+            return false;
+
+        $fileName = self::$jsonFolder . "/" . $name;
+
+        $myfile = fopen($fileName, "w") or die("Unable to open file in create mode!");
+        fwrite($myfile, json_encode($schema));
+        fclose($myfile);
+
+        return $schema;
+    }
+
+    /**
      * Prendo il json completo con il nome $nome e rendo il contenuto del file
      * Il nome può contenere sia il .json che non
      *

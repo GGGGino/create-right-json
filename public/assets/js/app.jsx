@@ -10,7 +10,9 @@
 var React = require('react'),
     ReactDOM = require('react-dom'),
     SchemiJsonTable = require('./myApp/components/SchemiJsonTable.react.jsx'),
-    SchemiActions = require('./myApp/actions/schemiActions');
+    AddJsonTemplate = require('./myApp/components/AddJsonTemplate.react.jsx'),
+    SchemiActions = require('./myApp/actions/schemiActions'),
+    $ = require('jquery');
 
 fetch('api/getJsons')
     .then(function(response) {
@@ -24,3 +26,10 @@ fetch('api/getJsons')
             document.getElementById('elencoJsonGeneral')
         );
     });
+
+$('.addJsonTemplate').on('click', function(e){
+    ReactDOM.render(
+        <AddJsonTemplate/>,
+        document.getElementById('schemaDetail')
+    );
+});

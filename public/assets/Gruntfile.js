@@ -23,7 +23,7 @@ module.exports = function (grunt) {
                 src: [],
                 dest: 'build/js/vendor.js',
                 options: {
-                    require: ['moment', 'redux', 'keymirror', 'object-assign', 'react', 'react-dom', "jsoneditor"]
+                    require: ['moment', 'redux', 'keymirror', 'object-assign', 'react', 'react-dom', "jsoneditor", "jquery"]
                 }
             },
             client: {
@@ -32,8 +32,8 @@ module.exports = function (grunt) {
                 },
                 options: {
                     debug: false,
-                    external: ['moment', 'redux', 'keymirror', 'object-assign', 'react', 'react-dom', "jsoneditor"],
-                    transform: ['reactify']
+                    external: ['moment', 'redux', 'keymirror', 'object-assign', 'react', 'react-dom', "jsoneditor", "jquery"],
+                    transform: [['babelify', {presets: ['react']}]]
                 }
             }
         },

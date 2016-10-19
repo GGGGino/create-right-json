@@ -21,12 +21,18 @@ $app->get('/', function () use ($app) {
 
 $app->group(['prefix' => 'api'], function () use ($app) {
 
+    /**
+     * Prendo la lista dei nomi degli schemi disponibili
+     */
     $app->get('getJsons', function () use ($app) {
         /** @var JsonManager $jsonM */
         $jsonM = $app->make('jsonManager');
         return response()->json($jsonM->getJsonsInFolder());
     });
 
+    /**
+     * Prendo lo schema tramite il nome passato in POST
+     */
     $app->post('getJson', function (Request $request) use ($app) {
         /** @var JsonManager $jsonM */
         $jsonM = $app->make('jsonManager');
@@ -34,6 +40,23 @@ $app->group(['prefix' => 'api'], function () use ($app) {
         return response()->json($jsonM->getJsonDetailInFolder($nome));
     });
 
+    /**
+     * Aggiungo un template json
+     */
+    $app->post('addJsonTemplate', function (Request $request) use ($app) {
+        /** @var JsonManager $jsonM */
+        $jsonM = $app->make('jsonManager');
+
+        $nome = $request->request->get('nome');
+        $json = $request->request->get('json');
+
+        $jsonAdded = $jsonM->addJsonTemplate($nome, $json);
+        return response()->json($jsonAdded);
+    });
+
+    /**
+     * Faccio l'edit di un template json
+     */
     $app->put('editJson', function (Request $request) use ($app) {
         /** @var JsonManager $jsonM */
         $jsonM = $app->make('jsonManager');
