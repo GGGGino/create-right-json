@@ -41,7 +41,12 @@ var CheckboxField = React.createClass({
         var style = {
                 width: '200px'
             },
-            defaultValue = this.props.schema.default;
+            defaultValue = this.props.schema.default,
+            id = null;
+
+        if( this.props.schema.id !== undefined )
+            id = this.props.schema.id;
+
         return (
             <div key={this.props.schema.id} className="form-group">
                 <div className="form-inline">
@@ -49,7 +54,7 @@ var CheckboxField = React.createClass({
                         <input
                             type="checkbox"
                             defaultChecked={defaultValue}
-                        />{this.props.schema.id}
+                        />{id}
                     </label>
                 </div>
             </div>

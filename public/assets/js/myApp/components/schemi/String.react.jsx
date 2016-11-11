@@ -37,11 +37,16 @@ var StringField = React.createClass({
         var style = {
                 width: '200px'
             },
-            defaultValue = this.props.schema.default;
+            defaultValue = this.props.schema.default,
+            id = null;
+
+        if( this.props.schema.id !== undefined )
+            id = <label>{this.props.schema.id}:&nbsp;&nbsp;</label>;
+
         return (
             <div key={this.props.schema.id} className="form-group">
                 <div className="form-inline">
-                    <label>{this.props.schema.id}:&nbsp;&nbsp;</label>
+                    {id}
                     <input type="text" defaultValue={defaultValue} style={style} className="form-control" />
                 </div>
             </div>

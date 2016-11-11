@@ -37,7 +37,11 @@ var SelectField = React.createClass({
         var style = {
                 width: '200px'
             },
-            options = [];
+            options = [],
+            id = null;
+
+        if( this.props.schema.id !== undefined )
+            id = <label>{this.props.schema.id}:&nbsp;&nbsp;</label>;
 
         for( var enu in this.props.schema.enum ){
             options.push(<option key={enu} value={this.props.schema.enum[enu]}>{this.props.schema.enum[enu]}</option>);
@@ -46,7 +50,7 @@ var SelectField = React.createClass({
         return (
             <div key={this.props.schema.id} className="form-group">
                 <div className="form-inline">
-                    <label>{this.props.schema.id}:&nbsp;&nbsp;</label>
+                    {id}
                     <select className="form-control">
                         {options}
                     </select>

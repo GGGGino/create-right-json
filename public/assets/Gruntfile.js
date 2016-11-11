@@ -6,7 +6,7 @@ module.exports = function (grunt) {
         watch: {
             all: {
                 files: ['js/**/*.js', 'scss/*.scss', 'js/**/*.jsx'],
-                tasks: ['browserify', 'compass']
+                tasks: ['browserify:client', 'compass']
             }
         },
         uglify: {

@@ -877,7 +877,15 @@ var SelectField = React.createClass({
         var style = {
             width: '200px'
         },
-            options = [];
+            options = [],
+            id = null;
+
+        if (this.props.schema.id !== undefined) id = React.createElement(
+            'label',
+            null,
+            this.props.schema.id,
+            ':\xA0\xA0'
+        );
 
         for (var enu in this.props.schema.enum) {
             options.push(React.createElement(
@@ -893,12 +901,7 @@ var SelectField = React.createClass({
             React.createElement(
                 'div',
                 { className: 'form-inline' },
-                React.createElement(
-                    'label',
-                    null,
-                    this.props.schema.id,
-                    ':\xA0\xA0'
-                ),
+                id,
                 React.createElement(
                     'select',
                     { className: 'form-control' },
@@ -954,19 +957,23 @@ var StringField = React.createClass({
         var style = {
             width: '200px'
         },
-            defaultValue = this.props.schema.default;
+            defaultValue = this.props.schema.default,
+            id = null;
+
+        if (this.props.schema.id !== undefined) id = React.createElement(
+            'label',
+            null,
+            this.props.schema.id,
+            ':\xA0\xA0'
+        );
+
         return React.createElement(
             'div',
             { key: this.props.schema.id, className: 'form-group' },
             React.createElement(
                 'div',
                 { className: 'form-inline' },
-                React.createElement(
-                    'label',
-                    null,
-                    this.props.schema.id,
-                    ':\xA0\xA0'
-                ),
+                id,
                 React.createElement('input', { type: 'text', defaultValue: defaultValue, style: style, className: 'form-control' })
             )
         );
