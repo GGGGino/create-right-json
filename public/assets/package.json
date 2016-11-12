@@ -12,6 +12,7 @@
     "grunt-contrib-nodeunit": "^1.0.0",
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
+    "immutable": "^3.8.1",
     "jquery": "^3.1.1",
     "jsoneditor": "^5.5.8",
     "keymirror": "^0.1.1",

@@ -14,27 +14,36 @@ module.exports = {
         if( pieceOfSchema.type === "string" ){
             if( 'enum' in pieceOfSchema ){
                 var SelectInput = require('./schemi/Select.react.jsx');
-                return <SelectInput key={key} schema={pieceOfSchema} />;
+                return <SelectInput key={key} keyField={key} schema={pieceOfSchema} profondita={profondita} />;
             }else{
                 var StringInput = require('./schemi/String.react.jsx');
-                return <StringInput key={key} schema={pieceOfSchema} />;
+                return <StringInput key={key} keyField={key} schema={pieceOfSchema} profondita={profondita} />;
             }
         }
 
         if( pieceOfSchema.type === "boolean" ){
             var CheckboxInput = require('./schemi/Checkbox.react.jsx');
-            return <CheckboxInput key={key} schema={pieceOfSchema} />;
+            return <CheckboxInput key={key} keyField={key} schema={pieceOfSchema} profondita={profondita} />;
         }
 
         if( pieceOfSchema.type === "object" ){
             var ObjectInput = require('./schemi/Object.react.jsx');
-            return <ObjectInput key={key} schema={pieceOfSchema} />;
+            return <ObjectInput key={key} keyField={key} schema={pieceOfSchema} profondita={profondita} />;
         }
 
         if( pieceOfSchema.type === "array" ){
             var ArrayInput = require('./schemi/Array.react.jsx');
-            return <ArrayInput key={key} schema={pieceOfSchema} />;
+            return <ArrayInput key={key} keyField={key} schema={pieceOfSchema} profondita={profondita} />;
         }
+    },
+
+    completeKey: function(parent, id) {
+        var prefix = "";
+
+        if( parent )
+            prefix =  parent + "_";
+
+        return prefix + id;
     }
 
 };

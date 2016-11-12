@@ -42,14 +42,15 @@ var ArrayField = React.createClass({
      */
     render: function() {
         var properties = [],
-            profondita = 0,
             divStyle = {
                 marginLeft: '25px'
             };
 
         for( var i=0; i<this.state.numberOfSchemas; i++ ){
-            var key = i;
-            properties.push(Utils.recognizeSchema(i, this.state.schema.items, profondita));
+            var key = this.props.keyField + "_" + i,
+                profondita = Utils.completeKey(this.props.profondita, i);
+
+            properties.push(Utils.recognizeSchema(key, this.state.schema.items, this.props.profondita));
         }
 
         return (

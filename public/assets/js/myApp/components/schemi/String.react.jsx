@@ -12,7 +12,9 @@
  * the TodoStore and passes the new data to its children.
  */
 
-var React = require('react');
+var React = require('react'),
+    SchemiActions = require('../../actions/schemiActions'),
+    Utils = require('../Utils.jsx');
 
 var StringField = React.createClass({
 
@@ -30,6 +32,11 @@ var StringField = React.createClass({
         //SchemiStore.removeChangeListener(this._onChange);
     },
 
+    handleChange: function(value) {
+        var path = Utils.completeKey(this.props.profondita, this.props.keyField);
+        SchemiActions.editInForm(path, value.target.value);
+    },
+
     /**
      * @return {object}
      */
@@ -38,16 +45,17 @@ var StringField = React.createClass({
                 width: '200px'
             },
             defaultValue = this.props.schema.default,
-            id = null;
+            idLabel = null,
+            key = Utils.completeKey(this.props.profondita, this.props.keyField);
 
         if( this.props.schema.id !== undefined )
-            id = <label>{this.props.schema.id}:&nbsp;&nbsp;</label>;
+            idLabel = <label>{this.props.schema.id}:&nbsp;&nbsp;</label>;
 
         return (
-            <div key={this.props.schema.id} className="form-group">
+            <div key={key} className="form-group">
                 <div className="form-inline">
-                    {id}
-                    <input type="text" defaultValue={defaultValue} style={style} className="form-control" />
+                    {idLabel}
+                    <input type="text" onChange={this.handleChange} defaultValue={defaultValue} style={style} className="form-control" />
                 </div>
             </div>
         );

@@ -28,12 +28,27 @@ $('.addJsonTemplate').on('click', function (e) {
 });
 
 },{"./myApp/actions/schemiActions":2,"./myApp/components/AddJsonTemplate.react.jsx":3,"./myApp/components/SchemiJsonTable.react.jsx":7,"jquery":"jquery","react":"react","react-dom":"react-dom"}],2:[function(require,module,exports){
-var store = require('../reducers/schemi');
+var store = require('../reducers/schemi'),
+    Immutable = require('immutable');
 
 var SchemiActions = {
+    createFormData: function () {
+        store.dispatch({ type: 'CREATE_FORM_DATA' });
+    },
+
+    editInForm: function (path, value) {
+        path = path.split("_");
+        store.dispatch({ type: 'EDIT_IN_FORM', path: path, value: value });
+    },
+
+    getDataInForm: function () {
+        return Immutable.fromJS(store.getState().formData).toJS();
+    },
+
     createList: function (list) {
         store.dispatch({ type: 'CREATE_LIST', list: list });
     },
+
     retrieveState: function () {
         return store.getState();
     }
@@ -41,7 +56,7 @@ var SchemiActions = {
 
 module.exports = SchemiActions;
 
-},{"../reducers/schemi":16}],3:[function(require,module,exports){
+},{"../reducers/schemi":16,"immutable":"immutable"}],3:[function(require,module,exports){
 /**
  * Copyright (c) 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -311,6 +326,7 @@ var SchemaDetailBox = React.createClass({
      * @return {object}
      */
     render: function () {
+        SchemiActions.createFormData();
 
         return React.createElement(
             'div',
@@ -320,12 +336,7 @@ var SchemaDetailBox = React.createClass({
                 { className: 'page-header' },
                 'Create Schema From Template'
             ),
-            React.createElement(MasterSchema, { schema: this.props.schema }),
-            React.createElement(
-                'pre',
-                null,
-                JSON.stringify(this.props.schema, null, 2)
-            )
+            React.createElement(MasterSchema, { schema: this.props.schema })
         );
     }
 
@@ -526,27 +537,35 @@ module.exports = {
         if (pieceOfSchema.type === "string") {
             if ('enum' in pieceOfSchema) {
                 var SelectInput = require('./schemi/Select.react.jsx');
-                return React.createElement(SelectInput, { key: key, schema: pieceOfSchema });
+                return React.createElement(SelectInput, { key: key, keyField: key, schema: pieceOfSchema, profondita: profondita });
             } else {
                 var StringInput = require('./schemi/String.react.jsx');
-                return React.createElement(StringInput, { key: key, schema: pieceOfSchema });
+                return React.createElement(StringInput, { key: key, keyField: key, schema: pieceOfSchema, profondita: profondita });
             }
         }
 
         if (pieceOfSchema.type === "boolean") {
             var CheckboxInput = require('./schemi/Checkbox.react.jsx');
-            return React.createElement(CheckboxInput, { key: key, schema: pieceOfSchema });
+            return React.createElement(CheckboxInput, { key: key, keyField: key, schema: pieceOfSchema, profondita: profondita });
         }
 
         if (pieceOfSchema.type === "object") {
             var ObjectInput = require('./schemi/Object.react.jsx');
-            return React.createElement(ObjectInput, { key: key, schema: pieceOfSchema });
+            return React.createElement(ObjectInput, { key: key, keyField: key, schema: pieceOfSchema, profondita: profondita });
         }
 
         if (pieceOfSchema.type === "array") {
             var ArrayInput = require('./schemi/Array.react.jsx');
-            return React.createElement(ArrayInput, { key: key, schema: pieceOfSchema });
+            return React.createElement(ArrayInput, { key: key, keyField: key, schema: pieceOfSchema, profondita: profondita });
         }
+    },
+
+    completeKey: function (parent, id) {
+        var prefix = "";
+
+        if (parent) prefix = parent + "_";
+
+        return prefix + id;
     }
 
 };
@@ -598,14 +617,15 @@ var ArrayField = React.createClass({
      */
     render: function () {
         var properties = [],
-            profondita = 0,
             divStyle = {
             marginLeft: '25px'
         };
 
         for (var i = 0; i < this.state.numberOfSchemas; i++) {
-            var key = i;
-            properties.push(Utils.recognizeSchema(i, this.state.schema.items, profondita));
+            var key = this.props.keyField + "_" + i,
+                profondita = Utils.completeKey(this.props.profondita, i);
+
+            properties.push(Utils.recognizeSchema(key, this.state.schema.items, this.props.profondita));
         }
 
         return React.createElement(
@@ -648,7 +668,8 @@ module.exports = ArrayField;
  * the TodoStore and passes the new data to its children.
  */
 
-var React = require('react');
+var React = require('react'),
+    Utils = require('../Utils.jsx');
 
 var CheckboxField = React.createClass({
     displayName: 'CheckboxField',
@@ -679,10 +700,15 @@ var CheckboxField = React.createClass({
         var style = {
             width: '200px'
         },
-            defaultValue = this.props.schema.default;
+            defaultValue = this.props.schema.default,
+            idLabel = null,
+            key = Utils.completeKey(this.props.profondita, this.props.keyField);
+
+        if (this.props.schema.id !== undefined) idLabel = this.props.schema.id;
+
         return React.createElement(
             'div',
-            { key: this.props.schema.id, className: 'form-group' },
+            { key: key, className: 'form-group' },
             React.createElement(
                 'div',
                 { className: 'form-inline' },
@@ -693,7 +719,7 @@ var CheckboxField = React.createClass({
                         type: 'checkbox',
                         defaultChecked: defaultValue
                     }),
-                    this.props.schema.id
+                    idLabel
                 )
             )
         );
@@ -703,7 +729,7 @@ var CheckboxField = React.createClass({
 
 module.exports = CheckboxField;
 
-},{"react":"react"}],12:[function(require,module,exports){
+},{"../Utils.jsx":9,"react":"react"}],12:[function(require,module,exports){
 /**
  * Copyright (c) 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -719,6 +745,7 @@ module.exports = CheckboxField;
  */
 
 var React = require('react'),
+    SchemiActions = require('../../actions/schemiActions'),
     Utils = require('../Utils.jsx');
 
 var Master = React.createClass({
@@ -726,8 +753,12 @@ var Master = React.createClass({
 
 
     getInitialState: function () {
+        var resultJson = SchemiActions.getDataInForm();
+
         return {
-            schema: this.props.schema
+            schema: this.props.schema,
+            showResultJson: false,
+            resultJson: resultJson
         };
     },
 
@@ -739,23 +770,48 @@ var Master = React.createClass({
         //SchemiStore.removeChangeListener(this._onChange);
     },
 
+    onClickPrintJson: function () {
+        var resultJson = SchemiActions.getDataInForm();
+
+        this.setState({
+            schema: this.props.schema,
+            showResultJson: true,
+            resultJson: resultJson
+        });
+    },
+
     /**
      * @return {object}
      */
     render: function () {
         var cleanedSchema = Utils.cleanSchema(this.props.schema),
             properties = [],
-            profondita = 0;
+            profondita = 0,
+            resultJson = null;
 
         for (var propName in cleanedSchema.properties) {
             var key = cleanedSchema.properties[propName].id;
-            properties.push(Utils.recognizeSchema(key, cleanedSchema.properties[propName], profondita));
+            properties.push(Utils.recognizeSchema(key, cleanedSchema.properties[propName], null));
+        }
+
+        if (this.state.showResultJson) {
+            resultJson = React.createElement(
+                'pre',
+                null,
+                JSON.stringify(this.state.resultJson, null, 2)
+            );
         }
 
         return React.createElement(
             'form',
             null,
-            properties
+            resultJson,
+            properties,
+            React.createElement(
+                'button',
+                { onClick: this.onClickPrintJson, type: 'button', className: 'btn btn-primary' },
+                'Add'
+            )
         );
     }
 
@@ -763,7 +819,7 @@ var Master = React.createClass({
 
 module.exports = Master;
 
-},{"../Utils.jsx":9,"react":"react"}],13:[function(require,module,exports){
+},{"../../actions/schemiActions":2,"../Utils.jsx":9,"react":"react"}],13:[function(require,module,exports){
 /**
  * Copyright (c) 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -805,13 +861,14 @@ var ObjectField = React.createClass({
     render: function () {
         var cleanedSchema = Utils.cleanSchema(this.props.schema),
             properties = [],
-            profondita = 0,
             divStyle = {
             marginLeft: '25px'
         };
 
         for (var propName in cleanedSchema.properties) {
-            var key = cleanedSchema.properties[propName].id;
+            var key = cleanedSchema.properties[propName].id,
+                profondita = Utils.completeKey(this.props.profondita, this.props.keyField);
+
             properties.push(Utils.recognizeSchema(key, cleanedSchema.properties[propName], profondita));
         }
 
@@ -850,7 +907,9 @@ module.exports = ObjectField;
  * the TodoStore and passes the new data to its children.
  */
 
-var React = require('react');
+var React = require('react'),
+    SchemiActions = require('../../actions/schemiActions'),
+    Utils = require('../Utils.jsx');
 
 var SelectField = React.createClass({
     displayName: 'SelectField',
@@ -870,6 +929,11 @@ var SelectField = React.createClass({
         //SchemiStore.removeChangeListener(this._onChange);
     },
 
+    handleChange: function (value) {
+        var path = Utils.completeKey(this.props.profondita, this.props.keyField);
+        SchemiActions.editInForm(path, value.target.value);
+    },
+
     /**
      * @return {object}
      */
@@ -878,9 +942,10 @@ var SelectField = React.createClass({
             width: '200px'
         },
             options = [],
-            id = null;
+            idLabel = null,
+            key = Utils.completeKey(this.props.profondita, this.props.keyField);
 
-        if (this.props.schema.id !== undefined) id = React.createElement(
+        if (this.props.schema.id !== undefined) idLabel = React.createElement(
             'label',
             null,
             this.props.schema.id,
@@ -897,14 +962,14 @@ var SelectField = React.createClass({
 
         return React.createElement(
             'div',
-            { key: this.props.schema.id, className: 'form-group' },
+            { key: key, className: 'form-group' },
             React.createElement(
                 'div',
                 { className: 'form-inline' },
-                id,
+                idLabel,
                 React.createElement(
                     'select',
-                    { className: 'form-control' },
+                    { className: 'form-control', onChange: this.handleChange },
                     options
                 )
             )
@@ -915,7 +980,7 @@ var SelectField = React.createClass({
 
 module.exports = SelectField;
 
-},{"react":"react"}],15:[function(require,module,exports){
+},{"../../actions/schemiActions":2,"../Utils.jsx":9,"react":"react"}],15:[function(require,module,exports){
 /**
  * Copyright (c) 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -930,7 +995,9 @@ module.exports = SelectField;
  * the TodoStore and passes the new data to its children.
  */
 
-var React = require('react');
+var React = require('react'),
+    SchemiActions = require('../../actions/schemiActions'),
+    Utils = require('../Utils.jsx');
 
 var StringField = React.createClass({
     displayName: 'StringField',
@@ -950,6 +1017,11 @@ var StringField = React.createClass({
         //SchemiStore.removeChangeListener(this._onChange);
     },
 
+    handleChange: function (value) {
+        var path = Utils.completeKey(this.props.profondita, this.props.keyField);
+        SchemiActions.editInForm(path, value.target.value);
+    },
+
     /**
      * @return {object}
      */
@@ -958,9 +1030,10 @@ var StringField = React.createClass({
             width: '200px'
         },
             defaultValue = this.props.schema.default,
-            id = null;
+            idLabel = null,
+            key = Utils.completeKey(this.props.profondita, this.props.keyField);
 
-        if (this.props.schema.id !== undefined) id = React.createElement(
+        if (this.props.schema.id !== undefined) idLabel = React.createElement(
             'label',
             null,
             this.props.schema.id,
@@ -969,12 +1042,12 @@ var StringField = React.createClass({
 
         return React.createElement(
             'div',
-            { key: this.props.schema.id, className: 'form-group' },
+            { key: key, className: 'form-group' },
             React.createElement(
                 'div',
                 { className: 'form-inline' },
-                id,
-                React.createElement('input', { type: 'text', defaultValue: defaultValue, style: style, className: 'form-control' })
+                idLabel,
+                React.createElement('input', { type: 'text', onChange: this.handleChange, defaultValue: defaultValue, style: style, className: 'form-control' })
             )
         );
     }
@@ -983,20 +1056,34 @@ var StringField = React.createClass({
 
 module.exports = StringField;
 
-},{"react":"react"}],16:[function(require,module,exports){
-var Redux = require('redux');
+},{"../../actions/schemiActions":2,"../Utils.jsx":9,"react":"react"}],16:[function(require,module,exports){
+var Redux = require('redux'),
+    Immutable = require('immutable');
 
 function counter(state, action) {
 
     if (typeof state === 'undefined') {
-        return 0;
+        return {};
     }
 
     switch (action.type) {
+        case 'CREATE_FORM_DATA':
+            state.formData = {};
+            return state;
+
+        case 'EDIT_IN_FORM':
+            // action.path, action.value
+            var stateTemp = Immutable.fromJS(state);
+            action.path.unshift('formData');
+
+            stateTemp = stateTemp.setIn(action.path, action.value);
+
+            return stateTemp.toJS();
+
         case 'CREATE_LIST':
-            state = {};
             state.listaSchemi = action.list;
             return state;
+
         case 'LIST':
             return state;
 
@@ -1005,8 +1092,8 @@ function counter(state, action) {
     }
 }
 
-var store = Redux.createStore(counter);
+var store = Redux.createStore(counter, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 module.exports = store;
 
-},{"redux":"redux"}]},{},[2,16,1,3,4,5,6,10,11,12,13,14,15,7,8,9]);
+},{"immutable":"immutable","redux":"redux"}]},{},[2,16,1,3,4,5,6,10,11,12,13,14,15,7,8,9]);

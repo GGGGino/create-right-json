@@ -12,7 +12,9 @@
  * the TodoStore and passes the new data to its children.
  */
 
-var React = require('react');
+var React = require('react'),
+    SchemiActions = require('../../actions/schemiActions'),
+    Utils = require('../Utils.jsx');
 
 var SelectField = React.createClass({
 
@@ -30,6 +32,11 @@ var SelectField = React.createClass({
         //SchemiStore.removeChangeListener(this._onChange);
     },
 
+    handleChange: function(value) {
+        var path = Utils.completeKey(this.props.profondita, this.props.keyField);
+        SchemiActions.editInForm(path, value.target.value);
+    },
+
     /**
      * @return {object}
      */
@@ -38,20 +45,21 @@ var SelectField = React.createClass({
                 width: '200px'
             },
             options = [],
-            id = null;
+            idLabel = null,
+            key = Utils.completeKey(this.props.profondita, this.props.keyField);
 
         if( this.props.schema.id !== undefined )
-            id = <label>{this.props.schema.id}:&nbsp;&nbsp;</label>;
+            idLabel = <label>{this.props.schema.id}:&nbsp;&nbsp;</label>;
 
         for( var enu in this.props.schema.enum ){
             options.push(<option key={enu} value={this.props.schema.enum[enu]}>{this.props.schema.enum[enu]}</option>);
         }
 
         return (
-            <div key={this.props.schema.id} className="form-group">
+            <div key={key} className="form-group">
                 <div className="form-inline">
-                    {id}
-                    <select className="form-control">
+                    {idLabel}
+                    <select className="form-control" onChange={this.handleChange}>
                         {options}
                     </select>
                 </div>

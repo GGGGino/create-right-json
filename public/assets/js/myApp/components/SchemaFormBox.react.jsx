@@ -36,15 +36,12 @@ var SchemaDetailBox = React.createClass({
      * @return {object}
      */
     render: function() {
-
+        SchemiActions.createFormData();
 
         return (
             <div>
                 <h1 className="page-header">Create Schema From Template</h1>
                 <MasterSchema schema={this.props.schema}/>
-                <pre>
-                    {JSON.stringify(this.props.schema, null, 2) }
-                </pre>
             </div>
         );
     }

@@ -12,7 +12,8 @@
  * the TodoStore and passes the new data to its children.
  */
 
-var React = require('react');
+var React = require('react'),
+    Utils = require('../Utils.jsx');
 
 var CheckboxField = React.createClass({
 
@@ -42,19 +43,20 @@ var CheckboxField = React.createClass({
                 width: '200px'
             },
             defaultValue = this.props.schema.default,
-            id = null;
+            idLabel = null,
+            key = Utils.completeKey(this.props.profondita, this.props.keyField);
 
         if( this.props.schema.id !== undefined )
-            id = this.props.schema.id;
+            idLabel = this.props.schema.id;
 
         return (
-            <div key={this.props.schema.id} className="form-group">
+            <div key={key} className="form-group">
                 <div className="form-inline">
                     <label>
                         <input
                             type="checkbox"
                             defaultChecked={defaultValue}
-                        />{id}
+                        />{idLabel}
                     </label>
                 </div>
             </div>

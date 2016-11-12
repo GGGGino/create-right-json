@@ -37,13 +37,14 @@ var ObjectField = React.createClass({
     render: function() {
         var cleanedSchema = Utils.cleanSchema(this.props.schema),
             properties = [],
-            profondita = 0,
             divStyle = {
                 marginLeft: '25px'
             };
 
         for(var propName in cleanedSchema.properties) {
-            var key = cleanedSchema.properties[propName].id;
+            var key = cleanedSchema.properties[propName].id,
+                profondita = Utils.completeKey(this.props.profondita, this.props.keyField);
+
             properties.push(Utils.recognizeSchema(key, cleanedSchema.properties[propName], profondita));
         }
 

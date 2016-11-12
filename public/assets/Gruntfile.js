@@ -1,5 +1,17 @@
 module.exports = function (grunt) {
 
+    var dependencies = [
+        'moment',
+        'redux',
+        'keymirror',
+        'object-assign',
+        'react',
+        'react-dom',
+        'jsoneditor',
+        'jquery',
+        'immutable'
+    ];
+
     // Project configuration.
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
@@ -23,7 +35,7 @@ module.exports = function (grunt) {
                 src: [],
                 dest: 'build/js/vendor.js',
                 options: {
-                    require: ['moment', 'redux', 'keymirror', 'object-assign', 'react', 'react-dom', "jsoneditor", "jquery"]
+                    require: dependencies
                 }
             },
             client: {
@@ -32,7 +44,7 @@ module.exports = function (grunt) {
                 },
                 options: {
                     debug: false,
-                    external: ['moment', 'redux', 'keymirror', 'object-assign', 'react', 'react-dom', "jsoneditor", "jquery"],
+                    external: dependencies,
                     transform: [['babelify', {presets: ['react']}]]
                 }
             }
