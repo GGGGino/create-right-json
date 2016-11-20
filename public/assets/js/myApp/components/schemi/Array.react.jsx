@@ -13,6 +13,7 @@
  */
 
 var React = require('react'),
+    SchemiActions = require('../../actions/schemiActions'),
     Utils = require('../Utils.jsx');
 
 var ArrayField = React.createClass({
@@ -30,6 +31,9 @@ var ArrayField = React.createClass({
 
     onClickAddSchema: function() {
         var numero = this.state.numberOfSchemas + 1;
+
+        var path = Utils.completeKey(this.props.profondita, this.props.keyField);
+        SchemiActions.addItemToArrayInForm(path);
 
         this.setState({
             numberOfSchemas: numero,

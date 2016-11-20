@@ -68,7 +68,7 @@ var Master = React.createClass({
             <form>
                 {resultJson}
                 {properties}
-                <button onClick={this.onClickPrintJson} type="button" className="btn btn-primary">Add</button>
+                <button onClick={this.onClickPrintJson} type="button" className="btn btn-primary">Print JSON</button>
             </form>
         );
     }

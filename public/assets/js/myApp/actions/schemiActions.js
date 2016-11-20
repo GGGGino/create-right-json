@@ -11,6 +11,11 @@ var SchemiActions = {
         store.dispatch({ type: 'EDIT_IN_FORM', path: path, value: value });
     },
 
+    addItemToArrayInForm: function(path) {
+        path = path.split("_");
+        store.dispatch({ type: 'ADD_ARRAY_ITEM_IN_FORM', path: path, value: Immutable.List.of() });
+    },
+
     getDataInForm: function() {
         return Immutable.fromJS(store.getState().formData).toJS();
     },

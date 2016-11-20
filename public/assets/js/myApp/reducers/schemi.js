@@ -20,6 +20,16 @@ function counter(state, action) {
 
             return stateTemp.toJS();
 
+        case 'ADD_ARRAY_ITEM_IN_FORM':
+            // action.path, action.value
+            var stateTemp = Immutable.fromJS(state);
+            action.path.unshift('formData');
+
+            if( !stateTemp.getIn(action.path) )
+                stateTemp = stateTemp.setIn(action.path, Immutable.List.of());
+
+            return stateTemp.toJS();
+
         case 'CREATE_LIST':
             state.listaSchemi = action.list;
             return state;

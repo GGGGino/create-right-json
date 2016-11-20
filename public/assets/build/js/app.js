@@ -41,6 +41,11 @@ var SchemiActions = {
         store.dispatch({ type: 'EDIT_IN_FORM', path: path, value: value });
     },
 
+    addItemToArrayInForm: function (path) {
+        path = path.split("_");
+        store.dispatch({ type: 'ADD_ARRAY_ITEM_IN_FORM', path: path, value: Immutable.List.of() });
+    },
+
     getDataInForm: function () {
         return Immutable.fromJS(store.getState().formData).toJS();
     },
@@ -586,6 +591,7 @@ module.exports = {
  */
 
 var React = require('react'),
+    SchemiActions = require('../../actions/schemiActions'),
     Utils = require('../Utils.jsx');
 
 var ArrayField = React.createClass({
@@ -605,6 +611,9 @@ var ArrayField = React.createClass({
 
     onClickAddSchema: function () {
         var numero = this.state.numberOfSchemas + 1;
+
+        var path = Utils.completeKey(this.props.profondita, this.props.keyField);
+        SchemiActions.addItemToArrayInForm(path);
 
         this.setState({
             numberOfSchemas: numero,
@@ -653,7 +662,7 @@ var ArrayField = React.createClass({
 
 module.exports = ArrayField;
 
-},{"../Utils.jsx":9,"react":"react"}],11:[function(require,module,exports){
+},{"../../actions/schemiActions":2,"../Utils.jsx":9,"react":"react"}],11:[function(require,module,exports){
 /**
  * Copyright (c) 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -810,7 +819,7 @@ var Master = React.createClass({
             React.createElement(
                 'button',
                 { onClick: this.onClickPrintJson, type: 'button', className: 'btn btn-primary' },
-                'Add'
+                'Print JSON'
             )
         );
     }
@@ -1077,6 +1086,15 @@ function counter(state, action) {
             action.path.unshift('formData');
 
             stateTemp = stateTemp.setIn(action.path, action.value);
+
+            return stateTemp.toJS();
+
+        case 'ADD_ARRAY_ITEM_IN_FORM':
+            // action.path, action.value
+            var stateTemp = Immutable.fromJS(state);
+            action.path.unshift('formData');
+
+            if (!stateTemp.getIn(action.path)) stateTemp = stateTemp.setIn(action.path, Immutable.List.of());
 
             return stateTemp.toJS();
 
