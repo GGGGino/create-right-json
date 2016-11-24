@@ -124,7 +124,7 @@ var AddJsonTemplate = React.createClass({
         });
     },
 
-    onInputAreaChange: function (event) {
+    onInputChange: function (event) {
         this.setState({
             nome: event.target.value,
             json: this.state.json
