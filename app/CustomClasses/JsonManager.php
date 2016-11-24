@@ -86,7 +86,7 @@ class JsonManager
         $fileName = self::$jsonFolder . "/" . $name;
 
         $myfile = fopen($fileName, "w") or die("Unable to open file in create mode!");
-        fwrite($myfile, json_encode($schema));
+        fwrite($myfile, $schema);
         fclose($myfile);
 
         return $schema;

@@ -20,6 +20,7 @@ var AddJsonTemplate = React.createClass({
 
     getInitialState: function() {
         return {
+            nome: "Prova",
             json: ""
         };
     },
@@ -33,12 +34,34 @@ var AddJsonTemplate = React.createClass({
     },
 
     onClickAddJsonTemplate: function(event) {
-        console.log(this.state.json);
+        fetch('api/addJsonTemplate', {
+            method: 'POST',
+            body: JSON.stringify({
+                nome: this.state.nome,
+                json: this.state.json
+            }),
+            cache: 'default',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        }).then(function(response) {
+            return response.json();
+        }).then(function(myJson) {
+            console.log(myJson);
+        });
     },
 
     onTextAreaChange: function(event) {
         this.setState({
+            nome: this.state.nome,
             json: event.target.value
+        });
+    },
+
+    onInputAreaChange: function(event) {
+        this.setState({
+            nome: event.target.value,
+            json: this.state.json
         });
     },
 
@@ -51,6 +74,10 @@ var AddJsonTemplate = React.createClass({
             <div>
                 <h1 className="page-header">Edit Schema</h1>
                 <button onClick={this.onClickAddJsonTemplate} type="button" className="btn btn-primary">Save</button>
+                <div className="form-group">
+                    <label>Nome Schema</label>
+                    <input type=""text onChange={this.onInputChange} value={this.state.name} />
+                </div>
                 <div className="form-group">
                     <textarea onChange={this.onTextAreaChange} name="jsonTemplate" value={this.state.json} />
                 </div>

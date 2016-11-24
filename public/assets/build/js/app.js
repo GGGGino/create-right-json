@@ -86,6 +86,7 @@ var AddJsonTemplate = React.createClass({
 
     getInitialState: function () {
         return {
+            nome: "Prova",
             json: ""
         };
     },
@@ -99,12 +100,34 @@ var AddJsonTemplate = React.createClass({
     },
 
     onClickAddJsonTemplate: function (event) {
-        console.log(this.state.json);
+        fetch('api/addJsonTemplate', {
+            method: 'POST',
+            body: JSON.stringify({
+                nome: this.state.nome,
+                json: this.state.json
+            }),
+            cache: 'default',
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        }).then(function (response) {
+            return response.json();
+        }).then(function (myJson) {
+            console.log(myJson);
+        });
     },
 
     onTextAreaChange: function (event) {
         this.setState({
+            nome: this.state.nome,
             json: event.target.value
+        });
+    },
+
+    onInputAreaChange: function (event) {
+        this.setState({
+            nome: event.target.value,
+            json: this.state.json
         });
     },
 
@@ -125,6 +148,16 @@ var AddJsonTemplate = React.createClass({
                 'button',
                 { onClick: this.onClickAddJsonTemplate, type: 'button', className: 'btn btn-primary' },
                 'Save'
+            ),
+            React.createElement(
+                'div',
+                { className: 'form-group' },
+                React.createElement(
+                    'label',
+                    null,
+                    'Nome Schema'
+                ),
+                React.createElement('input', { type: '', text: true, onChange: this.onInputChange, value: this.state.name })
             ),
             React.createElement(
                 'div',
