@@ -711,6 +711,7 @@ module.exports = ArrayField;
  */
 
 var React = require('react'),
+    SchemiActions = require('../../actions/schemiActions'),
     Utils = require('../Utils.jsx');
 
 var CheckboxField = React.createClass({
@@ -719,7 +720,7 @@ var CheckboxField = React.createClass({
 
     getInitialState: function () {
         return {
-            schema: this.props.schema
+            isChecked: false
         };
     },
 
@@ -731,8 +732,12 @@ var CheckboxField = React.createClass({
         //SchemiStore.removeChangeListener(this._onChange);
     },
 
-    onChange: function () {
-        this.setState({ isChecked: !this.state.isChecked });
+    onChange: function (event) {
+        var path = Utils.completeKey(this.props.profondita, this.props.keyField),
+            checked = !this.state.isChecked;
+
+        SchemiActions.editInForm(path, checked);
+        this.setState({ isChecked: checked });
     },
 
     /**
@@ -759,7 +764,8 @@ var CheckboxField = React.createClass({
                     null,
                     React.createElement('input', {
                         type: 'checkbox',
-                        defaultChecked: defaultValue
+                        defaultChecked: defaultValue,
+                        onChange: this.onChange
                     }),
                     idLabel
                 )
@@ -771,7 +777,7 @@ var CheckboxField = React.createClass({
 
 module.exports = CheckboxField;
 
-},{"../Utils.jsx":9,"react":"react"}],12:[function(require,module,exports){
+},{"../../actions/schemiActions":2,"../Utils.jsx":9,"react":"react"}],12:[function(require,module,exports){
 /**
  * Copyright (c) 2014-2015, Facebook, Inc.
  * All rights reserved.

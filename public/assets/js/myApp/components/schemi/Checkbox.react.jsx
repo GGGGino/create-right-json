@@ -13,13 +13,14 @@
  */
 
 var React = require('react'),
+    SchemiActions = require('../../actions/schemiActions'),
     Utils = require('../Utils.jsx');
 
 var CheckboxField = React.createClass({
 
     getInitialState: function() {
         return {
-            schema: this.props.schema
+            isChecked: false
         };
     },
 
@@ -31,8 +32,12 @@ var CheckboxField = React.createClass({
         //SchemiStore.removeChangeListener(this._onChange);
     },
 
-    onChange: function() {
-        this.setState({isChecked: !this.state.isChecked});
+    onChange: function(event) {
+        var path = Utils.completeKey(this.props.profondita, this.props.keyField),
+            checked = !this.state.isChecked;
+
+        SchemiActions.editInForm(path, checked);
+        this.setState({isChecked: checked});
     },
 
     /**
@@ -56,6 +61,7 @@ var CheckboxField = React.createClass({
                         <input
                             type="checkbox"
                             defaultChecked={defaultValue}
+                            onChange={this.onChange}
                         />{idLabel}
                     </label>
                 </div>
